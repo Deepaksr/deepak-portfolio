@@ -23,7 +23,7 @@ export function deliveryUrl(m, { w = 1200 } = {}) {
   return `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_${w},c_limit/${m.publicId}`;
 }
 
-export async function uploadToCloudinary(file, folder = 'monkey-mind') {
+export async function uploadToCloudinary(file, folder = 'deepak-roshan') {
   if (!isCloudinaryConfigured) {
     throw new Error('Cloudinary is not configured. Add VITE_CLOUDINARY_* to .env (see .env.example).');
   }

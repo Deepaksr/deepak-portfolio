@@ -18,8 +18,8 @@ export default function ContactForm() {
     setError('');
     const formData = new FormData(e.target);
     formData.append('access_key', KEY);
-    formData.append('subject', 'New inquiry — Monkey Mind');
-    formData.append('from_name', 'Monkey Mind Website');
+    formData.append('subject', 'New inquiry — Deepak Roshan');
+    formData.append('from_name', 'Deepak Roshan');
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',

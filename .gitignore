@@ -1,0 +1,7 @@
+node_modules/
+dist/
+
+# Local env with Firebase/Cloudinary/Web3Forms values
+.env
+.env.local
+.env.*.local

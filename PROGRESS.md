@@ -1,4 +1,4 @@
-# Monkey Mind — Page Tracker
+# Deepak Roshan — Page Tracker
 Status key: done / ongoing / remaining
 
 ## Public site
@@ -17,6 +17,6 @@ Status key: done / ongoing / remaining
 
 ## Launch
 - Firebase production wiring — ongoing (code + secrets done; paste rules + create admin user in console)
-- Cloudinary production wiring — ongoing (preset `monkey-mind` must be Unsigned)
+- Cloudinary production wiring — ongoing (upload preset must be Unsigned; uploads go to folder `deepak-roshan`)
 - Real photos + copy swap — remaining (client enters via /admin)
 - GitHub Pages + domain deploy — ongoing (default URL now; custom domain later)

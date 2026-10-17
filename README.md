@@ -1,4 +1,4 @@
-# Monkey Mind — Design Studio Site + Custom CMS
+# Deepak Roshan — Portfolio Site + Custom CMS
 
 Recreation of the `mmdesignstudio.framer.website` (Framer "Other") template as a
 Vite + React SPA with a built-in CMS, per proposal §§2–6.
@@ -7,7 +7,7 @@ Vite + React SPA with a built-in CMS, per proposal §§2–6.
 
 | Route | What |
 |---|---|
-| `/` | Home — MONKEY MIND hero, Selected Works with **Grid / List / Feed / Full** switcher, Expertise |
+| `/` | Home — DEEPAK ROSHAN hero, Selected Works with **Grid / List / Feed / Full** switcher, Expertise |
 | `/projects` | All Projects grouped by category (Branding, Packaging, Publication, UI Design, Ad & Marketing) |
 | `/p/:slug` | Project detail — description, year, tags, image/video/GIF gallery, prev/next |
 | `/info` | About — studio lede, expertise, CMS-managed testimonials |
@@ -33,7 +33,7 @@ only (purge hosted files in the Cloudinary dashboard).
 1. Copy `.env.example` → `.env`, fill Firebase + Cloudinary values.
 2. Firebase console: enable Email/Password Auth, create admin user, create Firestore,
    deploy `firestore.rules`.
-3. Cloudinary: unsigned upload preset restricted to folder `monkey-mind`, allow
+3. Cloudinary: unsigned upload preset restricted to folder `deepak-roshan`, allow
    image + video. CMS uploads then go straight to Cloudinary (reorder/persist included).
 4. GitHub Pages: push to `main` → Actions workflow builds `dist/` and deploys.
    Add custom domain via `CNAME` + DNS; HTTPS auto.

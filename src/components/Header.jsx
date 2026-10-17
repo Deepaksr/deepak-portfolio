@@ -10,7 +10,7 @@ export default function Header() {
     <>
       <header className="site-header">
         <div className="wrap topbar">
-          <Link to="/" className="brand">MM Studio</Link>
+          <Link to="/" className="brand">Deepak Roshan</Link>
           <nav className="topnav main-nav">
             <NavLink to="/" end className={textLink}>Index</NavLink>
             <NavLink to="/projects" className={textLink}>Projects</NavLink>

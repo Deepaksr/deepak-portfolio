@@ -46,7 +46,7 @@ export function Inquiry() {
                 <a key={s.label} href={s.url} target="_blank" rel="noreferrer">{s.label}</a>
               ))}
             </nav>
-            <p className="colophon-note">© {year} MMStudio. Built for creatives.</p>
+            <p className="colophon-note">© {year} Deepak Roshan. Built for creatives.</p>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ export function Colophon() {
   return (
     <footer className="colophon">
       <div className="wrap colophon-inner">
-        <Marquee text="MONKEYMIND" />
+        <Marquee text="DEEPAK ROSHAN" />
       </div>
     </footer>
   );

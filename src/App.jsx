@@ -34,13 +34,13 @@ const AdminSuspense = ({ children }) => (
   <Suspense fallback={<main className="wrap"><p>Loading admin…</p></main>}>{children}</Suspense>
 );
 
-// GitHub project pages serves the app under /monkey-mind/; a future custom
+// GitHub project pages serves the app under /deepak-portfolio/; a future custom
 // domain (and local dev/preview) serves it at root. Detect the base at
 // runtime so one build works everywhere without config changes.
 const basename =
   typeof window !== 'undefined' &&
-  window.location.pathname.split('/').filter(Boolean)[0] === 'monkey-mind'
-    ? '/monkey-mind'
+  window.location.pathname.split('/').filter(Boolean)[0] === 'deepak-portfolio'
+    ? '/deepak-portfolio'
     : '/';
 
 export default function App() {

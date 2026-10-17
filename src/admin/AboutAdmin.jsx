@@ -236,7 +236,7 @@ export default function AboutAdmin() {
       <p style={muted}>Everything written on the website, in one place. Saving puts it live immediately.</p>
       <div className="card">
         <b>Home page intro</b>
-        <p style={muted}>Shows on: home page, next to MONKEY MIND.</p>
+        <p style={muted}>Shows on: home page, next to DEEPAK ROSHAN.</p>
         <label>Intro text</label><textarea rows={3} value={home.blurb} onChange={(e) => setHomeD({ ...home, blurb: e.target.value })} />
       </div>
       <div className="card">

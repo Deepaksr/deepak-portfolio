@@ -23,7 +23,7 @@ const LEGACY_KEYS = ['mm_cms_v1', 'mm_cms_v2', 'mm_cms_v3', 'mm_cms_v4'];
 // Shape guarantee for a fresh backend (full wipe): never null, so public
 // pages and admin screens can render before the client adds content.
 const EMPTY_SETTINGS = {
-  home: { heroTitle: 'MONKEY MIND', blurb: '', featuredIds: [] },
+  home: { heroTitle: 'DEEPAK ROSHAN', blurb: '', featuredIds: [] },
   about: { title: '', lede: '', body: '' },
   expertise: [],
   testimonials: [],

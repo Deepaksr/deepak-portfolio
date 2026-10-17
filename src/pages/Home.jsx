@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <section className="hero hero-home">
-        <h1>MONKEY<br />MIND</h1>
+        <h1>DEEPAK<br />ROSHAN</h1>
         <p className="blurb">{settings.home.blurb}</p>
         <div className="hero-social">
           {settings.socials.map((s) => (
