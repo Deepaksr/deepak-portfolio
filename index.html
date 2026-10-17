@@ -28,7 +28,7 @@
       // Restore deep link after public/404.html redirect on GitHub Pages
       try {
         var p = sessionStorage.getItem('mm_path');
-        if (p) { sessionStorage.removeItem('mm_path'); history.replaceState(null, '', '.' + p); }
+        if (p) { sessionStorage.removeItem('mm_path'); history.replaceState(null, '', p); }
       } catch (e) {}
     </script>
     <script type="module" src="/src/main.jsx"></script>
