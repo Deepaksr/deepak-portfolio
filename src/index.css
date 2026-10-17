@@ -10,7 +10,7 @@
   --dark: #0f0f0f;
   --pill: #212121;
   --font-head: "Clash Display", "Inter", system-ui, sans-serif;
-  --font-body: "Switzer", "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Archivo", "Inter", system-ui, -apple-system, sans-serif;
   --max: 1876px;
   --radius: 14px;
 }
@@ -65,7 +65,7 @@ button { font-family: inherit; cursor: pointer; }
 .hero .blurb { color: #5e5e5e; max-width: 340px; font-size: .8rem; font-weight: 500; line-height: 1.32; margin: 8px 0 0; }
 .hero .hero-social { display: flex; gap: 18px; font-size: .8rem; font-weight: 500; margin-top: 8px; white-space: nowrap; }
 .hero .hero-social a:hover { text-decoration: underline; text-underline-offset: 4px; }
-/* Section heads — template preset 5nlege: Switzer 500, 34px, -.018em, lh 1.2 */
+/* Section heads — template preset 5nlege: Archivo 500, 34px, -.018em, lh 1.2 */
 .sec-head { display: flex; align-items: baseline; margin: 40px 0 20px; }
 .sec-title { width: 50%; text-align: left; }
 .sec-head h2 { font-family: var(--font-body); font-weight: 500; font-size: 28px; letter-spacing: -.018em; line-height: 1.2; margin: 0; white-space: nowrap; }
@@ -211,7 +211,7 @@ button { font-family: inherit; cursor: pointer; }
 /* Info hero — full-bleed 5-state mosaic grid (4×3 desktop, 3×3 mobile) over giant centered title */
 .info-hero { width: 100vw; margin-left: calc(50% - 50vw); margin-top: -56px; height: 100vh; height: 100svh; position: relative; overflow: hidden; background: var(--bg); opacity: 0; animation: info-in .8s ease 1s forwards; }
 @keyframes info-in { to { opacity: 1; } }
-.info-title { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; margin: 0; padding: 0 4vw; text-align: center; font-weight: 400; font-size: clamp(4rem, 17vw, 16rem); letter-spacing: -.04em; line-height: .9; color: #171717; text-wrap: balance; overflow-wrap: break-word; }
+.info-title { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; margin: 0; padding: 0 4vw; text-align: center; font-family: var(--font-head); font-weight: 400; font-size: clamp(4rem, 17vw, 16rem); letter-spacing: -.04em; line-height: .9; color: #171717; text-wrap: balance; overflow-wrap: break-word; }
 .info-grid { position: absolute; inset: 0; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); gap: 4px; }
 .info-cell { overflow: hidden; background: transparent; }
 .info-cell img { width: 100%; height: 100%; object-fit: cover; opacity: 1; }
