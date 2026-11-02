@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSite } from '../lib/store.jsx';
 import { deliveryUrl } from '../lib/cloudinary.js';
 
-// Framer "Other" template — Info hero 5-state mosaic (desktop 4×3, mobile 3×3)
-// over a giant centered title. Fixed image order per mount; visibility follows
-// the exact 5-state map above — layout never rearranges, tiles just fade.
+// Framer "Other" template — Info hero 5-state mosaic (desktop 4×3, mobile 3×3).
+// Fixed image order per mount; visibility follows the exact 5-state map above —
+// layout never rearranges, tiles just fade.
 // Positions 1–12 map to indexes 0–11; 1 = visible, 0 = hidden.
 const STATES = [
   [0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1], // Slider 01: 02,03,05,07,08,10,12
@@ -56,17 +56,10 @@ export default function InfoHero() {
     return () => clearTimeout(timer);
   }, [cells]);
 
-  if (!cells.length) {
-    return (
-      <section className="info-hero" aria-label={settings.about.title}>
-        <h1 className="info-title">{settings.about.title}</h1>
-      </section>
-    );
-  }
+  if (!cells.length) return null;
 
   return (
-    <section className="info-hero" aria-label={settings.about.title}>
-      <h1 className="info-title">{settings.about.title}</h1>
+    <section className="info-hero" aria-label={settings.about?.name || 'Photo gallery'}>
       <div className="info-grid">
         {cells.map((cell, i) => {
           const visible = staticAll || STATES[idx][i] === 1;

@@ -24,7 +24,21 @@ const LEGACY_KEYS = ['mm_cms_v1', 'mm_cms_v2', 'mm_cms_v3', 'mm_cms_v4'];
 // pages and admin screens can render before the client adds content.
 const EMPTY_SETTINGS = {
   home: { heroTitle: 'DEEPAK ROSHAN', blurb: '', featuredIds: [] },
-  about: { title: '', lede: '', body: '' },
+  about: {
+    title: '',
+    name: '',
+    lede: '',
+    body: '',
+    intro: '',
+    role: '',
+    country: '',
+    experience: '',
+    workMode: '',
+    resumeUrl: '',
+    phone: '',
+  },
+  experience: [],
+  skills: { coreTools: '', design: '', creative: '', professional: '' },
   expertise: [],
   testimonials: [],
   contactEmail: '',
@@ -33,6 +47,18 @@ const EMPTY_SETTINGS = {
   infoGrid: [],
   footerImages: [],
 };
+
+// Stored docs from older releases only carry some keys; deep-merge the known
+// nested objects so new fields never come back undefined.
+function normalizeSettings(data = {}) {
+  return {
+    ...EMPTY_SETTINGS,
+    ...data,
+    home: { ...EMPTY_SETTINGS.home, ...data.home },
+    about: { ...EMPTY_SETTINGS.about, ...data.about },
+    skills: { ...EMPTY_SETTINGS.skills, ...data.skills },
+  };
+}
 
 const slugify = (s) => String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -128,7 +154,7 @@ export function SiteProvider({ children }) {
     const u3 = onSnapshot(
       doc(db, 'siteSettings', 'site'),
       (snap) => {
-        if (snap.exists()) setSettings({ ...EMPTY_SETTINGS, ...snap.data() });
+        if (snap.exists()) setSettings(normalizeSettings(snap.data()));
         markReady();
       },
       onErr,

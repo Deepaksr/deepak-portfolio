@@ -25,11 +25,13 @@ export default function Home() {
     <>
       <section className="hero hero-home">
         <h1>DEEPAK<br />ROSHAN</h1>
-        <p className="blurb">{settings.home.blurb}</p>
-        <div className="hero-social">
-          {settings.socials.map((s) => (
-            <a key={s.label} href={s.url} target="_blank" rel="noreferrer">{s.label}</a>
-          ))}
+        <div className="hero-right">
+          <p className="blurb">{settings.home.blurb}</p>
+          <div className="hero-social">
+            {settings.socials.map((s) => (
+              <a key={s.label} href={s.url} target="_blank" rel="noreferrer">{s.label}</a>
+            ))}
+          </div>
         </div>
       </section>
 

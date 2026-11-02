@@ -14,7 +14,8 @@ export default function AboutAdmin() {
   const [home, setHome] = useState(s.settings.home);
   const [about, setAbout] = useState(s.settings.about);
   const [expertise, setExpertise] = useState(s.settings.expertise || []);
-  const [testis, setTestis] = useState(s.settings.testimonials || []);
+  const [experience, setExperience] = useState(s.settings.experience || []);
+  const [skills, setSkills] = useState(s.settings.skills || {});
   const [socials, setSocials] = useState(s.settings.socials || []);
   const [contactEmail, setEmail] = useState(s.settings.contactEmail || '');
   const [location, setLocation] = useState(s.settings.location || '');
@@ -34,7 +35,8 @@ export default function AboutAdmin() {
     setHome(s.settings.home);
     setAbout(s.settings.about);
     setExpertise(s.settings.expertise || []);
-    setTestis(s.settings.testimonials || []);
+    setExperience(s.settings.experience || []);
+    setSkills(s.settings.skills || {});
     setSocials(s.settings.socials || []);
     setEmail(s.settings.contactEmail || '');
     setLocation(s.settings.location || '');
@@ -50,7 +52,8 @@ export default function AboutAdmin() {
   const setHomeD = touch(setHome);
   const setAboutD = touch(setAbout);
   const setExpertiseD = touch(setExpertise);
-  const setTestisD = touch(setTestis);
+  const setExperienceD = touch(setExperience);
+  const setSkillsD = touch(setSkills);
   const setSocialsD = touch(setSocials);
   const setEmailD = touch(setEmail);
   const setLocationD = touch(setLocation);
@@ -190,9 +193,33 @@ export default function AboutAdmin() {
     const expertiseClean = expertise
       .filter((e) => (e.title || '').trim() || (e.text || '').trim())
       .map((e, i) => ({ n: String(e.n || `${i + 1}`), title: (e.title || '').trim(), text: (e.text || '').trim() }));
-    const testisClean = testis
-      .filter((t) => (t.quote || '').trim() || (t.name || '').trim())
-      .map((t) => ({ quote: (t.quote || '').trim(), name: (t.name || '').trim(), role: (t.role || '').trim() }));
+    const experienceClean = experience
+      .filter((e) => (e.company || '').trim() || (e.role || '').trim())
+      .map((e) => ({
+        company: (e.company || '').trim(),
+        role: (e.role || '').trim(),
+        summary: (e.summary || '').trim(),
+        timeline: (e.timeline || '').trim(),
+        mode: (e.mode || '').trim(),
+        responsibilities: (e.responsibilities || '').trim(),
+      }));
+    const skillsClean = {
+      coreTools: (skills.coreTools || '').trim(),
+      design: (skills.design || '').trim(),
+      creative: (skills.creative || '').trim(),
+      professional: (skills.professional || '').trim(),
+    };
+    const aboutClean = {
+      ...about,
+      name: (about.name || '').trim(),
+      intro: (about.intro || '').trim(),
+      role: (about.role || '').trim(),
+      country: (about.country || '').trim(),
+      experience: (about.experience || '').trim(),
+      workMode: (about.workMode || '').trim(),
+      resumeUrl: (about.resumeUrl || '').trim(),
+      phone: (about.phone || '').trim(),
+    };
     const socialsClean = socials
       .filter((x) => (x.label || '').trim() || (x.url || '').trim())
       .map((x) => ({ label: (x.label || '').trim(), url: (x.url || '').trim() }));
@@ -205,17 +232,20 @@ export default function AboutAdmin() {
     try {
       await s.saveSettings({
         home,
-        about,
+        about: aboutClean,
         expertise: expertiseClean,
-        testimonials: testisClean,
+        experience: experienceClean,
+        skills: skillsClean,
         socials: socialsClean,
         infoGrid: infoGridClean,
         footerImages: footerClean,
         contactEmail: contactEmail.trim(),
         location: location.trim(),
       });
+      setAbout(aboutClean);
       setExpertise(expertiseClean);
-      setTestis(testisClean);
+      setExperience(experienceClean);
+      setSkills(skillsClean);
       setSocials(socialsClean);
       setInfoGrid(infoGridClean);
       setFooterImages(footerClean);
@@ -240,14 +270,28 @@ export default function AboutAdmin() {
         <label>Intro text</label><textarea rows={3} value={home.blurb} onChange={(e) => setHomeD({ ...home, blurb: e.target.value })} />
       </div>
       <div className="card">
-        <b>About intro</b>
-        <p style={muted}>Shows on: Info page, next to “Our Expertise”.</p>
-        <label>Title</label><input value={about.title} onChange={(e) => setAboutD({ ...about, title: e.target.value })} maxLength={120} />
-        <label>Intro text</label><textarea rows={3} value={about.lede} onChange={(e) => setAboutD({ ...about, lede: e.target.value })} />
+        <b>About profile</b>
+        <p style={muted}>Shows on: Info page, under the photo mosaic. Leave a field blank to keep the sample text.</p>
+        <label>Name (max 120)</label>
+        <input value={about.name || ''} onChange={(e) => setAboutD({ ...about, name: e.target.value })} maxLength={120} placeholder="Deepak Roshan" />
+        <label>Intro paragraph (max 600)</label>
+        <textarea rows={4} value={about.intro || ''} onChange={(e) => setAboutD({ ...about, intro: e.target.value })} maxLength={600} />
+        <div className="row">
+          <div style={{ flex: 1 }}><label>Role (max 80)</label><input value={about.role || ''} onChange={(e) => setAboutD({ ...about, role: e.target.value })} maxLength={80} placeholder="Communication Designer" /></div>
+          <div style={{ flex: 1 }}><label>Country (max 120)</label><input value={about.country || ''} onChange={(e) => setAboutD({ ...about, country: e.target.value })} maxLength={120} placeholder="Mumbai, Maharashtra, India" /></div>
+        </div>
+        <div className="row">
+          <div style={{ flex: 1 }}><label>Experience areas (max 120)</label><input value={about.experience || ''} onChange={(e) => setAboutD({ ...about, experience: e.target.value })} maxLength={120} placeholder="Graphic Design, Branding & Visual Communication" /></div>
+          <div style={{ flex: 1 }}><label>Work mode (max 80)</label><input value={about.workMode || ''} onChange={(e) => setAboutD({ ...about, workMode: e.target.value })} maxLength={80} placeholder="Open to opportunities" /></div>
+        </div>
+        <label>Resume link</label>
+        <input value={about.resumeUrl || ''} onChange={(e) => setAboutD({ ...about, resumeUrl: e.target.value })} maxLength={300} placeholder="https://…/resume.pdf" />
       </div>
       <div className="card">
-        <b>Services ({expertise.length})</b>
-        <p style={muted}>Shows on: Info page, as a numbered list. Number, name and one-line description per row.</p>
+        <b>Expertise section ({expertise.length})</b>
+        <p style={muted}>Shows on: bottom of the home page, next to “Our Expertise”. Number, name and one-line description per row.</p>
+        <label>Intro text</label>
+        <textarea rows={3} value={about.lede || ''} onChange={(e) => setAboutD({ ...about, lede: e.target.value })} maxLength={400} />
         {expertise.map((e, i) => (
           <div key={i} className="row" style={{ borderBottom: '1px solid var(--line)', padding: '8px 0' }}>
             <div><label>Number</label><input style={{ maxWidth: 60 }} value={e.n} onChange={(ev) => setExpertiseD(expertise.map((x, k) => (k === i ? { ...x, n: ev.target.value } : x)))} maxLength={8} /></div>
@@ -261,22 +305,40 @@ export default function AboutAdmin() {
         </div>
       </div>
       <div className="card">
-        <b>Customer reviews ({testis.length})</b>
-        <p style={muted}>Shows on: bottom of the Info page.</p>
-        {testis.map((t, i) => (
-          <div key={i} style={{ borderBottom: '1px solid var(--line)', padding: '8px 0' }}>
-            <label>Review</label>
-            <textarea rows={2} value={t.quote} onChange={(e) => setTestisD(testis.map((x, k) => (k === i ? { ...x, quote: e.target.value } : x)))} />
-            <div className="row">
-              <div style={{ flex: 1 }}><label>Name</label><input value={t.name} onChange={(e) => setTestisD(testis.map((x, k) => (k === i ? { ...x, name: e.target.value } : x)))} placeholder="Name" /></div>
-              <div style={{ flex: 1 }}><label>Job title</label><input value={t.role} onChange={(e) => setTestisD(testis.map((x, k) => (k === i ? { ...x, role: e.target.value } : x)))} placeholder="Role" /></div>
-              <button className="btn danger" onClick={() => { if (askDelete('review')) setTestisD(testis.filter((_, k) => k !== i)); }}>✕</button>
+        <b>Experience ({experience.length})</b>
+        <p style={muted}>Shows on: Info page, as the ruled list under the intro. Leave the list empty to keep the sample entry. Responsibilities go one per line.</p>
+        {experience.map((x, i) => (
+          <div key={i} style={{ borderBottom: '1px solid var(--line)', padding: '8px 0 14px' }}>
+            <div className="row" style={{ alignItems: 'flex-end' }}>
+              <div style={{ flex: 2 }}><label>Company (max 120)</label><input value={x.company || ''} onChange={(e) => setExperienceD(experience.map((y, k) => (k === i ? { ...y, company: e.target.value } : y)))} maxLength={120} /></div>
+              <div style={{ flex: 1 }}><label>Timeline</label><input value={x.timeline || ''} onChange={(e) => setExperienceD(experience.map((y, k) => (k === i ? { ...y, timeline: e.target.value } : y)))} maxLength={40} placeholder="2025" /></div>
+              <button className="btn danger" onClick={() => { if (askDelete('experience entry')) setExperienceD(experience.filter((_, k) => k !== i)); }}>✕</button>
             </div>
+            <div className="row">
+              <div style={{ flex: 1 }}><label>Role (max 120)</label><input value={x.role || ''} onChange={(e) => setExperienceD(experience.map((y, k) => (k === i ? { ...y, role: e.target.value } : y)))} maxLength={120} /></div>
+              <div style={{ flex: 1 }}><label>Work mode</label><input value={x.mode || ''} onChange={(e) => setExperienceD(experience.map((y, k) => (k === i ? { ...y, mode: e.target.value } : y)))} maxLength={60} placeholder="Internship" /></div>
+            </div>
+            <label>Summary</label>
+            <input value={x.summary || ''} onChange={(e) => setExperienceD(experience.map((y, k) => (k === i ? { ...y, summary: e.target.value } : y)))} maxLength={300} placeholder="worked on branding, visual communication and design deliverables." />
+            <label>Responsibilities (one per line)</label>
+            <textarea rows={3} value={x.responsibilities || ''} onChange={(e) => setExperienceD(experience.map((y, k) => (k === i ? { ...y, responsibilities: e.target.value } : y)))} maxLength={1200} />
           </div>
         ))}
         <div className="row" style={{ marginTop: 8 }}>
-          <button className="btn ghost" onClick={() => setTestisD([...testis, { quote: 'New quote…', name: 'Name', role: 'Role' }])}>+ Add review</button>
+          <button className="btn ghost" onClick={() => setExperienceD([...experience, { company: 'Company name', role: 'Role', summary: '', timeline: '', mode: '', responsibilities: '' }])}>+ Add experience</button>
         </div>
+      </div>
+      <div className="card">
+        <b>Skills</b>
+        <p style={muted}>Shows on: Info page. Separate items with ·. Leave a field blank to keep the sample text.</p>
+        <label>Core tools (max 200)</label>
+        <input value={skills.coreTools || ''} onChange={(e) => setSkillsD({ ...skills, coreTools: e.target.value })} maxLength={200} placeholder="Adobe Creative Suite | Blender | Figma | AI Tools" />
+        <label>Design (max 400)</label>
+        <textarea rows={2} value={skills.design || ''} onChange={(e) => setSkillsD({ ...skills, design: e.target.value })} maxLength={400} />
+        <label>Creative (max 400)</label>
+        <textarea rows={2} value={skills.creative || ''} onChange={(e) => setSkillsD({ ...skills, creative: e.target.value })} maxLength={400} />
+        <label>Professional (max 400)</label>
+        <textarea rows={2} value={skills.professional || ''} onChange={(e) => setSkillsD({ ...skills, professional: e.target.value })} maxLength={400} />
       </div>
       <div className="card">
         <b>Social links ({socials.length})</b>
@@ -320,8 +382,9 @@ export default function AboutAdmin() {
       </div>
       <div className="card">
         <b>Contact</b>
-        <p style={muted}>Shows on: top bar and bottom of the website.</p>
+        <p style={muted}>Shows on: top bar, Info page contact details and footer.</p>
         <label>Email</label><input value={contactEmail} onChange={(e) => setEmailD(e.target.value)} maxLength={120} />
+        <label>Phone</label><input value={about.phone || ''} onChange={(e) => setAboutD({ ...about, phone: e.target.value })} maxLength={40} placeholder="+91 9518595037" />
         <label>Location</label><input value={location} onChange={(e) => setLocationD(e.target.value)} maxLength={120} />
       </div>
       <div className="row" style={{ alignItems: 'center' }}>
