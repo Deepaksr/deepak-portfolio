@@ -286,6 +286,7 @@ export default function AboutAdmin() {
         </div>
         <label>Resume link</label>
         <input value={about.resumeUrl || ''} onChange={(e) => setAboutD({ ...about, resumeUrl: e.target.value })} maxLength={300} placeholder="https://…/resume.pdf" />
+        <p style={muted}>Leave blank to use the built-in sample PDF. A direct PDF URL overrides it.</p>
       </div>
       <div className="card">
         <b>Expertise section ({expertise.length})</b>

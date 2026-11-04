@@ -29,7 +29,8 @@ export default function AboutIntro() {
   const country = (a.country || FALLBACK.country).trim();
   const experience = (a.experience || FALLBACK.experience).trim();
   const workMode = (a.workMode || FALLBACK.workMode).trim();
-  const resume = (a.resumeUrl || '').trim();
+  const resumeUrl = (a.resumeUrl || '').trim();
+  const resume = resumeUrl || `${import.meta.env.BASE_URL}Deepak-Roshan-Resume.pdf`;
 
   return (
     <section className="about-intro">
@@ -40,17 +41,15 @@ export default function AboutIntro() {
       <div className="about-intro-grid">
         <div className="about-intro-left">
           <p className="about-copy">{intro}</p>
-          {resume ? (
-            <a className="resume-btn" href={resume} target="_blank" rel="noreferrer">
-              <span>Download the resume</span>
-              <ArrowDownRight />
-            </a>
-          ) : (
-            <span className="resume-btn is-disabled" aria-disabled="true" title="Add a resume link in the CMS">
-              <span>Download the resume</span>
-              <ArrowDownRight />
-            </span>
-          )}
+          <a
+            className="resume-btn"
+            href={resume}
+            download="Deepak-Roshan-Resume.pdf"
+            {...(resumeUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+          >
+            <span>Download the resume</span>
+            <ArrowDownRight />
+          </a>
         </div>
         <dl className="about-facts">
           <div className="about-fact">
