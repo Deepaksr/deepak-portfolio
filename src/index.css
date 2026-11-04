@@ -26,8 +26,8 @@
   --dark: #0f0f0f;
   --pill: #212121;
   --on-pill: #ffffff;
-  --chip: #dfdfdf;
-  --chip-hover: #d6d6d6;
+  --chip: #d2d2d2;
+  --chip-hover: #c6c6c6;
   --inquiry-bg: #111111;
   --inquiry-ink: #ffffff;
   --success: #1e7e34;
@@ -42,45 +42,43 @@
   --radius: 14px;
 }
 
-/* Follow the operating system's colour preference. There is no manual
-   override, so switching the OS theme updates the site immediately. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --bg: #0f0f0f;
-    --ink: #f4f4f4;
-    --muted: #a6a6a6;
-    --soft: #999999;
-    --label: #9c9c9c;
-    --eyebrow: #a0a0a0;
-    --copy: #d6d6d6;
-    --info-title: #f4f4f4;
-    --tab-dim: #5a5a5a;
-    --line: #242424;
-    --line-dark: #363636;
-    --card: #181818;
-    --panel: #161616;
-    --hover: #1c1c1c;
-    --hover-soft: #1f1f1f;
-    --skeleton: #1e1e1e;
-    --field-line: #3a3a3a;
-    --placeholder: #737373;
-    --solid: #f4f4f4;
-    --on-solid: #111111;
-    --media-bg: #1e1e1e;
-    --grip: #8a8a8a;
-    --dark: #0f0f0f;
-    --pill: #f4f4f4;
-    --on-pill: #111111;
-    --chip: #242424;
-    --chip-hover: #303030;
-    --inquiry-bg: #090909;
-    --inquiry-ink: #f4f4f4;
-    --success: #7bd88f;
-    --success-bg: #14351f;
-    --chip-muted: #242424;
-    --danger: #ff8a80;
-  }
+/* The inline bootstrap in index.html sets data-theme from the saved choice,
+   falling back to the operating system preference. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080808;
+  --ink: #f4f4f4;
+  --muted: #a6a6a6;
+  --soft: #999999;
+  --label: #9c9c9c;
+  --eyebrow: #a0a0a0;
+  --copy: #d6d6d6;
+  --info-title: #f4f4f4;
+  --tab-dim: #5a5a5a;
+  --line: #242424;
+  --line-dark: #363636;
+  --card: #181818;
+  --panel: #161616;
+  --hover: #1c1c1c;
+  --hover-soft: #1f1f1f;
+  --skeleton: #1e1e1e;
+  --field-line: #3a3a3a;
+  --placeholder: #737373;
+  --solid: #f4f4f4;
+  --on-solid: #111111;
+  --media-bg: #1e1e1e;
+  --grip: #8a8a8a;
+  --dark: #0f0f0f;
+  --pill: #f4f4f4;
+  --on-pill: #111111;
+  --chip: #383838;
+  --chip-hover: #464646;
+  --inquiry-bg: #080808;
+  --inquiry-ink: #f4f4f4;
+  --success: #7bd88f;
+  --success-bg: #14351f;
+  --chip-muted: #242424;
+  --danger: #ff8a80;
 }
 
 * { box-sizing: border-box; }
@@ -101,7 +99,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* Header — minimal static top bar (brand / Index+Projects / email) */
 .site-header { position: sticky; top: 0; z-index: 50; background: transparent; }
-.site-header .topbar { display: grid; grid-template-columns: var(--split) 1fr; align-items: center; height: 56px; font-family: var(--font-head); font-size: .8rem; font-weight: 500; }
+.site-header .topbar { display: grid; grid-template-columns: var(--split) 1fr auto; align-items: center; height: 56px; font-family: var(--font-head); font-size: .8rem; font-weight: 500; }
 .topbar-right { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-width: 0; }
 .brand { font-weight: 500; justify-self: start; display: inline-flex; align-items: center; color: var(--ink); }
 .brand svg { display: block; width: 24px; height: auto; }
@@ -115,12 +113,19 @@ button { font-family: inherit; cursor: pointer; }
   .topnav a:hover::after { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .topnav a::after, .topmail::after { transition: none; }
+  .topnav a::after, .topmail::after, .theme-toggle, .theme-toggle::after { transition: none; }
 }
 .topmail { position: relative; text-decoration: none; }
 .topmail::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: currentColor; opacity: 0; transition: opacity .25s ease; }
 @media (hover: hover) and (pointer: fine) {
   .topmail:hover::after { opacity: 1; }
+}
+.theme-toggle { position: relative; justify-self: end; margin-left: 22px; padding: 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; line-height: 1; opacity: .85; white-space: nowrap; transition: opacity .2s ease; }
+.theme-toggle::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: currentColor; opacity: 0; transition: opacity .25s ease; }
+.theme-toggle:hover { opacity: 1; }
+.theme-toggle:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover::after { opacity: 1; }
 }
 .menu-btn { display: none; background: none; border: 0; width: 26px; height: 20px; padding: 0; position: relative; justify-self: end; transition: background .25s ease, width .25s ease, height .25s ease, border-radius .25s ease; }
 .menu-btn span { position: absolute; left: 0; right: 0; height: 1.5px; background: var(--ink); transition: top .25s ease, transform .25s ease, background .25s ease, left .25s ease, right .25s ease; }
@@ -430,6 +435,7 @@ table.tbl th, table.tbl td { text-align: left; padding: 10px 8px; border-bottom:
 @media (max-width: 900px) {
   .site-header .topbar { font-size: .72rem; }
   .topbar-right { gap: 12px; }
+  .theme-toggle { margin-left: 16px; }
   .hero { row-gap: 20px; padding: 72px 0 40px; }
   .hero .hero-right { flex-direction: column; gap: 20px; }
   .hero .hero-social { margin-top: 0; }
@@ -441,7 +447,8 @@ table.tbl th, table.tbl td { text-align: left; padding: 10px 8px; border-bottom:
   .info-hero { height: 75vh; height: 75svh; margin-top: 0; }
   .info-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
   .expertise { margin-top: 65px; }
-  .site-header .topbar { grid-template-columns: 1fr auto; }
+  .site-header .topbar { grid-template-columns: 1fr auto auto; }
+  .theme-toggle { margin: 0 14px 0 0; }
   .menu-btn { display: inline-block; }
   .hero { grid-template-columns: 1fr; padding: 56px 0 32px; }
   .hero h1 { font-size: 3rem; }

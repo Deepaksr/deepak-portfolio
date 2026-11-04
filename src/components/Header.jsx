@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useSite } from '../lib/store.jsx';
+import { useTheme } from '../lib/theme.js';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { settings } = useSite();
+  const { theme, toggle } = useTheme();
+  const nextTheme = theme === 'dark' ? 'light' : 'dark';
   const textLink = ({ isActive }) => (isActive ? 'active' : '');
   return (
     <>
@@ -27,6 +30,15 @@ export default function Header() {
             </nav>
             <a className="topmail main-nav" href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
           </div>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggle}
+            aria-label={`Switch to ${nextTheme} mode`}
+            title={`Switch to ${nextTheme} mode`}
+          >
+            {nextTheme === 'dark' ? 'Dark' : 'Light'}
+          </button>
           <button className={`menu-btn${open ? ' open' : ''}`} onClick={() => setOpen((v) => !v)} aria-label="Menu" aria-expanded={open}>
             <span /><span />
           </button>

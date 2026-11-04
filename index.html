@@ -2,20 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg?v=7" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg?v=8" sizes="any" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+    <meta name="theme-color" content="#f4f4f4" />
     <meta name="description" content="Deepak Roshan — a space for ideas that don't always follow a straight line. Branding, packaging and creative communication from Mumbai." />
     <title>Deepak Roshan</title>
     <style>
       /* Paint the correct base colour before the app stylesheet loads. */
       html { background: #f4f4f4; color-scheme: light; }
-      @media (prefers-color-scheme: dark) {
-        html { background: #0f0f0f; color-scheme: dark; }
-      }
+      html[data-theme="dark"] { background: #080808; color-scheme: dark; }
     </style>
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('dr-theme');
+          var theme = saved === 'light' || saved === 'dark'
+            ? saved
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#080808' : '#f4f4f4');
+
+          var icon = document.querySelector('link[rel="icon"]');
+          if (icon) {
+            var href = icon.getAttribute('href') || '';
+            icon.setAttribute('href', href.replace('favicon.svg', theme === 'dark' ? 'favicon-dark.svg' : 'favicon-light.svg'));
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://api.fontshare.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
