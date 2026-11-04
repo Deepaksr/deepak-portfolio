@@ -295,7 +295,7 @@ export default function ProjectEditor() {
   };
 
   if (s.loading) return <p>Loading…</p>;
-  if (s.syncError && !s.projects.length && !isNew) return <p style={{ color: '#b3261e' }}>{s.syncError}</p>;
+  if (s.syncError && !s.projects.length && !isNew) return <p style={{ color: 'var(--danger)' }}>{s.syncError}</p>;
 
   return (
     <>
@@ -337,7 +337,7 @@ export default function ProjectEditor() {
             <input type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" onChange={(e) => onFiles(e.target.files)} disabled={busy || !isCloudinaryConfigured} />
             {busy && <p>Uploading…</p>}
             {uploadErrors.length > 0 && (
-              <div style={{ color: '#b3261e', fontSize: '.85rem', marginTop: 8 }}>
+              <div style={{ color: 'var(--danger)', fontSize: '.85rem', marginTop: 8 }}>
                 {uploadErrors.map((m, i) => <p key={i} style={{ margin: '4px 0' }}>{m}</p>)}
               </div>
             )}
@@ -397,7 +397,7 @@ export default function ProjectEditor() {
             <label>Upload a thumbnail photo</label>
             <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(e) => { onThumbFile(e.target.files); e.target.value = ''; }} disabled={thumbBusy || busy || saving || !isCloudinaryConfigured} />
             {thumbBusy && <p>Uploading…</p>}
-            {thumbError && <p style={{ color: '#b3261e', fontSize: '.85rem' }}>{thumbError}</p>}
+            {thumbError && <p style={{ color: 'var(--danger)', fontSize: '.85rem' }}>{thumbError}</p>}
             <div className="row" style={{ marginTop: 8 }}>
               <button className="btn ghost" onClick={copyCoverAsThumb} disabled={!form.cover}>Use main photo</button>
             </div>

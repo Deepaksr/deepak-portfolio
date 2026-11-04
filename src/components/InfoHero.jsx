@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSite } from '../lib/store.jsx';
 import { deliveryUrl } from '../lib/cloudinary.js';
 
-// Framer "Other" template — Info hero 5-state mosaic (desktop 4×3, mobile 3×3).
+// Framer "Other" template — Info hero 5-state mosaic (desktop 4×3, mobile 3×3)
+// over the large centred name, which shows through the hidden cells.
 // Fixed image order per mount; visibility follows the exact 5-state map above —
 // layout never rearranges, tiles just fade.
 // Positions 1–12 map to indexes 0–11; 1 = visible, 0 = hidden.
@@ -40,6 +41,8 @@ export default function InfoHero() {
       .map((x) => ({ url: x.url, publicId: x.publicId || null }));
   }, [settings.infoGrid, COUNT]);
 
+  const name = (settings.about?.name || 'DEEPAK ROSHAN').trim();
+
   useEffect(() => {
     setIdx(0);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -56,10 +59,17 @@ export default function InfoHero() {
     return () => clearTimeout(timer);
   }, [cells]);
 
-  if (!cells.length) return null;
+  if (!cells.length) {
+    return (
+      <section className="info-hero" aria-label={name}>
+        <div className="info-title" aria-hidden="true">{name}</div>
+      </section>
+    );
+  }
 
   return (
-    <section className="info-hero" aria-label={settings.about?.name || 'Photo gallery'}>
+    <section className="info-hero" aria-label={name}>
+      <div className="info-title" aria-hidden="true">{name}</div>
       <div className="info-grid">
         {cells.map((cell, i) => {
           const visible = staticAll || STATES[idx][i] === 1;

@@ -50,7 +50,7 @@ export default function Home() {
       ) : publishedProjects.length === 0 ? (
         <div className="card">
           {syncError ? (
-            <p style={{ color: '#b3261e' }}>Couldn't load projects: {syncError}</p>
+            <p style={{ color: 'var(--danger)' }}>Couldn't load projects: {syncError}</p>
           ) : (
             <p style={{ color: 'var(--muted)' }}>No published projects yet — add them in <Link to="/admin/projects" style={{ textDecoration: 'underline' }}>CMS → Projects</Link>.</p>
           )}
