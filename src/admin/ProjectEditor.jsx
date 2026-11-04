@@ -12,7 +12,8 @@ const OK_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const blank = () => ({
-  title: '', slug: '', categoryIds: [], excerpt: '', body: '', year: String(new Date().getFullYear()),
+  title: '', slug: '', categoryIds: [], excerpt: '', body: '', approach: '', company: '', timeline: '', duration: '',
+  year: String(new Date().getFullYear()),
   tags: [], cover: '', thumbnail: null, featured: false, status: 'published', media: [],
 });
 
@@ -313,9 +314,17 @@ export default function ProjectEditor() {
               <div style={{ flex: 1 }}><label>Year</label><input value={form.year} onChange={(e) => set('year', e.target.value)} placeholder="e.g. 2025" maxLength={12} /></div>
               <div style={{ flex: 2 }}><label>Labels (comma separated)</label><input value={tagsStr} onChange={(e) => { markDirty(); setTagsStr(e.target.value); }} placeholder="Branding, Digital" /></div>
             </div>
-            <p style={{ color: 'var(--muted)', fontSize: '.85rem', marginTop: 4 }}>Labels are shown under the product name on the website.</p>
-            <label>Full description</label>
-            <textarea rows={5} value={form.body} onChange={(e) => set('body', e.target.value)} placeholder="Shown on the product page. Plain text." />
+            <p style={{ color: 'var(--muted)', fontSize: '.85rem', marginTop: 4 }}>Labels appear in project lists and as the Service value on the product page.</p>
+            <label>Project brief</label>
+            <textarea rows={5} value={form.body || ''} onChange={(e) => set('body', e.target.value)} placeholder="Short paragraph shown under “Project Brief” on the product page. Plain text." />
+            <label>Our approach</label>
+            <textarea rows={4} value={form.approach || ''} onChange={(e) => set('approach', e.target.value)} placeholder="Paragraph shown in the right-hand column. Plain text." />
+            <div className="row">
+              <div style={{ flex: 1 }}><label>Company</label><input value={form.company || ''} onChange={(e) => set('company', e.target.value)} placeholder="MonkeyMind Studio" maxLength={120} /></div>
+              <div style={{ flex: 1 }}><label>Timeline</label><input value={form.timeline || ''} onChange={(e) => set('timeline', e.target.value)} placeholder="2025-26" maxLength={40} /></div>
+              <div style={{ flex: 1 }}><label>Duration</label><input value={form.duration || ''} onChange={(e) => set('duration', e.target.value)} placeholder="9 Months" maxLength={40} /></div>
+            </div>
+            <p style={{ color: 'var(--muted)', fontSize: '.85rem', marginTop: 4 }}>Company, timeline and duration appear in the project details row. Timeline falls back to Year when left blank.</p>
           </div>
 
           <div className="card">

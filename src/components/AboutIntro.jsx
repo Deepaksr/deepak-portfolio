@@ -15,7 +15,7 @@ const FALLBACK = {
 function ArrowDownRight() {
   return (
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <path d="M4 4l8 8M12 7v5H7" />
+      <path d="M1 1l14 14M15 6v9H6" />
     </svg>
   );
 }
@@ -33,10 +33,12 @@ export default function AboutIntro() {
 
   return (
     <section className="about-intro">
+      <div className="about-intro-head">
+        <p className="about-eyebrow">HI THIS IS</p>
+        <h1 className="about-name">{name}</h1>
+      </div>
       <div className="about-intro-grid">
         <div className="about-intro-left">
-          <p className="about-eyebrow">HI THIS IS</p>
-          <h1 className="about-name">{name}</h1>
           <p className="about-copy">{intro}</p>
           {resume ? (
             <a className="resume-btn" href={resume} target="_blank" rel="noreferrer">
