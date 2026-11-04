@@ -557,7 +557,8 @@ table.tbl th, table.tbl td { text-align: left; padding: 10px 8px; border-bottom:
 .skills-core { margin: 0; font-size: 1.0625rem; line-height: 1.4; color: var(--ink); }
 .skills-core b { font-weight: 600; }
 .skill-tiles { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 34px; }
-.skill-tiles span { flex: 0 0 auto; width: 40px; height: 40px; background: var(--solid); border-radius: 4px; }
+.skill-tiles span { display: flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 40px; height: 40px; background: var(--solid); color: var(--bg); border-radius: 4px; }
+.skill-tiles svg { display: block; width: 30px; height: 30px; }
 .skills-groups { min-width: 0; }
 .skills-groups p { margin: 0 0 26px; font-size: 1.0625rem; line-height: 1.5; color: var(--ink); }
 .skills-groups p:last-child { margin-bottom: 0; }
@@ -633,6 +634,7 @@ table.tbl th, table.tbl td { text-align: left; padding: 10px 8px; border-bottom:
   .skills-core, .skills-groups p { font-size: 1rem; }
   .skill-tiles { gap: 16px; margin-top: 28px; }
   .skill-tiles span { width: 32px; height: 32px; }
+  .skill-tiles svg { width: 24px; height: 24px; }
   .git-inner { padding: 72px 0 100px; }
   .git-title { font-size: clamp(2.6rem, 10vw, 3.6rem); }
   .git-details { font-size: 1.1rem; }

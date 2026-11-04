@@ -10,7 +10,36 @@ const FALLBACK = {
     'Creative Collaboration · Client Communication · Presentation Skills · Time Management · Adaptability · Attention to Detail',
 };
 
-const TILE_COUNT = 9; // as in the reference row of black tiles
+const APPS = [
+  { code: 'Ae', label: 'Adobe After Effects' },
+  { code: 'Ds', label: 'Adobe Substance 3D Designer' },
+  { code: 'St', label: 'Adobe Substance 3D Stager' },
+  { code: 'Lr', label: 'Adobe Lightroom' },
+  { code: 'Ps', label: 'Adobe Photoshop' },
+  { code: 'Ai', label: 'Adobe Illustrator' },
+  { code: 'An', label: 'Adobe Animate' },
+  { code: 'Id', label: 'Adobe InDesign' },
+  { code: 'Pr', label: 'Adobe Premiere Pro' },
+];
+
+function AppMark({ code }) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <text
+        x="16"
+        y="21"
+        textAnchor="middle"
+        fontFamily="Archivo, Arial, sans-serif"
+        fontSize="18"
+        fontWeight="700"
+        letterSpacing="-.055em"
+        fill="currentColor"
+      >
+        {code}
+      </text>
+    </svg>
+  );
+}
 
 export default function AboutSkills() {
   const { settings } = useSite();
@@ -30,9 +59,17 @@ export default function AboutSkills() {
               <b>Core Tool - </b>
               {coreTools}
             </p>
-            <div className="skill-tiles" aria-hidden="true">
-              {Array.from({ length: TILE_COUNT }).map((_, i) => (
-                <span key={i} />
+            <div className="skill-tiles">
+              {APPS.map((app) => (
+                <span
+                  className="skill-tile"
+                  key={app.code}
+                  role="img"
+                  aria-label={app.label}
+                  title={app.label}
+                >
+                  <AppMark code={app.code} />
+                </span>
               ))}
             </div>
           </div>
