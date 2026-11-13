@@ -1,4 +1,5 @@
 import { useSite } from '../lib/store.jsx';
+import { initialSkillTiles, skillTileLabel, skillTileMark } from '../lib/skillTiles.js';
 
 const FALLBACK = {
   coreTools: 'Adobe Creative Suite | Blender | Figma | AI Tools',
@@ -10,21 +11,9 @@ const FALLBACK = {
     'Creative Collaboration · Client Communication · Presentation Skills · Time Management · Adaptability · Attention to Detail',
 };
 
-const APPS = [
-  { code: 'Ae', label: 'Adobe After Effects' },
-  { code: 'Ds', label: 'Adobe Substance 3D Designer' },
-  { code: 'St', label: 'Adobe Substance 3D Stager' },
-  { code: 'Lr', label: 'Adobe Lightroom' },
-  { code: 'Ps', label: 'Adobe Photoshop' },
-  { code: 'Ai', label: 'Adobe Illustrator' },
-  { code: 'An', label: 'Adobe Animate' },
-  { code: 'Id', label: 'Adobe InDesign' },
-  { code: 'Pr', label: 'Adobe Premiere Pro' },
-];
-
-function AppMark({ code }) {
+function AppMark({ mark }) {
   return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <svg className="skill-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
       <text
         x="16"
         y="21"
@@ -35,9 +24,46 @@ function AppMark({ code }) {
         letterSpacing="-.055em"
         fill="currentColor"
       >
-        {code}
+        {mark}
       </text>
     </svg>
+  );
+}
+
+function SkillIcon({ tile }) {
+  if (tile.iconUrl) {
+    return (
+      <span
+        className="skill-icon"
+        style={{ '--icon-url': `url("${tile.iconUrl}")` }}
+        aria-hidden="true"
+      />
+    );
+  }
+  return <AppMark mark={skillTileMark(tile)} />;
+}
+
+function SkillTile({ tile }) {
+  const label = skillTileLabel(tile);
+  return (
+    <span
+      className="skill-tile"
+      role="img"
+      aria-label={label}
+      title={label}
+    >
+      <SkillIcon tile={tile} />
+    </span>
+  );
+}
+
+function SkillTileSet({ tiles, clone = false }) {
+  return (
+    <div className="skill-set" aria-hidden={clone || undefined}>
+      {tiles.map((tile) => (
+        <SkillTile key={clone ? `${tile.key}-clone` : tile.key} tile={tile} />
+      ))}
+    </div>
   );
 }
 
@@ -48,6 +74,8 @@ export default function AboutSkills() {
   const design = (s.design || FALLBACK.design).trim();
   const creative = (s.creative || FALLBACK.creative).trim();
   const professional = (s.professional || FALLBACK.professional).trim();
+  const tiles = initialSkillTiles(s.tiles);
+  const marqueeStyle = { '--marquee-duration': `${Math.max(28, tiles.length * 4)}s` };
 
   return (
     <section className="about-skills" aria-label="Skills">
@@ -59,19 +87,14 @@ export default function AboutSkills() {
               <b>Core Tool - </b>
               {coreTools}
             </p>
-            <div className="skill-tiles">
-              {APPS.map((app) => (
-                <span
-                  className="skill-tile"
-                  key={app.code}
-                  role="img"
-                  aria-label={app.label}
-                  title={app.label}
-                >
-                  <AppMark code={app.code} />
-                </span>
-              ))}
-            </div>
+            {tiles.length > 0 && (
+              <div className="skill-marquee" style={marqueeStyle}>
+                <div className="skill-track">
+                  <SkillTileSet tiles={tiles} />
+                  {tiles.length > 1 && <SkillTileSet tiles={tiles} clone />}
+                </div>
+              </div>
+            )}
           </div>
           <div className="skills-groups">
             <p>
@@ -89,3 +112,4 @@ export default function AboutSkills() {
     </section>
   );
 }
+

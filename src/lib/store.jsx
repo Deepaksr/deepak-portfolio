@@ -38,7 +38,7 @@ const EMPTY_SETTINGS = {
     phone: '',
   },
   experience: [],
-  skills: { coreTools: '', design: '', creative: '', professional: '' },
+  skills: { coreTools: '', design: '', creative: '', professional: '', tiles: null },
   expertise: [],
   testimonials: [],
   contactEmail: '',

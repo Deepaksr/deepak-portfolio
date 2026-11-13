@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSite } from '../lib/store.jsx';
 import { isCloudinaryConfigured, uploadToCloudinary } from '../lib/cloudinary.js';
+import {
+  cleanSkillTiles,
+  createSkillTile,
+  initialSkillTiles,
+  skillTileLabel,
+  skillTileMark,
+} from '../lib/skillTiles.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const muted = { color: 'var(--muted)', fontSize: '.85rem', marginTop: 4 };
 const IMG_MAX_MB = 10;
+const SVG_MAX_KB = 200;
 const OK_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 const INFO_CAP = 12; // mosaic map has exactly 12 position slots
 const ikey = () => `g-${Math.random().toString(36).slice(2, 8)}`;
@@ -21,6 +29,9 @@ export default function AboutAdmin() {
   const [location, setLocation] = useState(s.settings.location || '');
   const [infoGrid, setInfoGrid] = useState(s.settings.infoGrid || []);
   const [footerImages, setFooterImages] = useState(s.settings.footerImages || []);
+  const [skillTiles, setSkillTiles] = useState(() => initialSkillTiles(s.settings.skills?.tiles));
+  const [tileBusy, setTileBusy] = useState('');
+  const [tileErr, setTileErr] = useState('');
   const [infoBusy, setInfoBusy] = useState(false);
   const [infoErr, setInfoErr] = useState('');
   const [footBusy, setFootBusy] = useState(false);
@@ -37,6 +48,7 @@ export default function AboutAdmin() {
     setExpertise(s.settings.expertise || []);
     setExperience(s.settings.experience || []);
     setSkills(s.settings.skills || {});
+    setSkillTiles(initialSkillTiles(s.settings.skills?.tiles));
     setSocials(s.settings.socials || []);
     setEmail(s.settings.contactEmail || '');
     setLocation(s.settings.location || '');
@@ -57,6 +69,63 @@ export default function AboutAdmin() {
   const setSocialsD = touch(setSocials);
   const setEmailD = touch(setEmail);
   const setLocationD = touch(setLocation);
+  const setSkillTilesDirty = (updater) => {
+    setDirty(true);
+    setSavedTick(false);
+    setSkillTiles((prev) => (typeof updater === 'function' ? updater(prev) : updater));
+  };
+
+  const updateSkillTile = (index, patch) => {
+    setSkillTilesDirty((prev) => prev.map((tile, i) => (i === index ? { ...tile, ...patch } : tile)));
+  };
+  const moveSkillTile = (index, dir) => {
+    setSkillTilesDirty((prev) => {
+      const j = index + dir;
+      if (index < 0 || j < 0 || j >= prev.length) return prev;
+      const next = [...prev];
+      [next[index], next[j]] = [next[j], next[index]];
+      return next;
+    });
+  };
+  const deleteSkillTile = (index) => {
+    if (!askDelete('app tile')) return;
+    setSkillTilesDirty((prev) => prev.filter((_, i) => i !== index));
+  };
+  const addSkillTile = () => setSkillTilesDirty((prev) => [...prev, createSkillTile()]);
+  const resetSkillIcon = (index) => updateSkillTile(index, { iconUrl: '', iconPublicId: null });
+
+  const uploadSkillIcon = async (index, file) => {
+    if (!file) return;
+    setTileErr('');
+    if (!isCloudinaryConfigured) {
+      setTileErr('SVG uploads aren’t working right now. Contact your developer.');
+      return;
+    }
+    const isSvg = file.type === 'image/svg+xml' || /\.svg$/i.test(file.name || '');
+    if (!isSvg) {
+      setTileErr(`${file.name || 'File'}: only SVG files, please.`);
+      return;
+    }
+    if (file.size > SVG_MAX_KB * 1024) {
+      setTileErr(`${file.name}: bigger than ${SVG_MAX_KB}KB — please use a smaller SVG.`);
+      return;
+    }
+
+    setTileBusy(skillTiles[index]?.key || String(index));
+    try {
+      const text = await file.text();
+      if (!/<svg[\s>]/i.test(text)) throw new Error('that file does not look like an SVG.');
+      if (/<script\b|<foreignObject\b|\son[a-z]+\s*=/i.test(text)) {
+        throw new Error('remove embedded scripts or active content, then try again.');
+      }
+      const uploaded = await uploadToCloudinary(file, 'deepak-roshan/skills');
+      updateSkillTile(index, { iconUrl: uploaded.url, iconPublicId: uploaded.publicId || null });
+    } catch (e) {
+      setTileErr(`${file.name || 'SVG'}: ${e?.message || 'upload failed.'}`);
+    } finally {
+      setTileBusy('');
+    }
+  };
 
   const askDelete = (what) => confirm(`Remove this ${what}? This goes live when you save.`);
 
@@ -208,6 +277,7 @@ export default function AboutAdmin() {
       design: (skills.design || '').trim(),
       creative: (skills.creative || '').trim(),
       professional: (skills.professional || '').trim(),
+      tiles: cleanSkillTiles(skillTiles),
     };
     const aboutClean = {
       ...about,
@@ -246,6 +316,7 @@ export default function AboutAdmin() {
       setExpertise(expertiseClean);
       setExperience(experienceClean);
       setSkills(skillsClean);
+      setSkillTiles(initialSkillTiles(skillsClean.tiles));
       setSocials(socialsClean);
       setInfoGrid(infoGridClean);
       setFooterImages(footerClean);
@@ -340,6 +411,48 @@ export default function AboutAdmin() {
         <textarea rows={2} value={skills.creative || ''} onChange={(e) => setSkillsD({ ...skills, creative: e.target.value })} maxLength={400} />
         <label>Professional (max 400)</label>
         <textarea rows={2} value={skills.professional || ''} onChange={(e) => setSkillsD({ ...skills, professional: e.target.value })} maxLength={400} />
+      </div>
+      <div className="card">
+        <b>Skill app tiles ({skillTiles.length})</b>
+        <p style={muted}>Shows on: Info page skills. Upload a transparent, single-colour SVG up to {SVG_MAX_KB}KB. The icon is recoloured to match the theme; its original colours are not shown. Row order is the marquee order.</p>
+        {tileErr && <p style={{ color: 'var(--danger)', fontSize: '.85rem' }}>{tileErr}</p>}
+        {skillTiles.map((tile, i) => {
+          return (
+            <div key={tile.key || i} className="row" style={{ borderBottom: '1px solid var(--line)', padding: '10px 0', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+              <span
+                className="skill-tile"
+                role="img"
+                aria-label={skillTileLabel(tile)}
+                title={skillTileLabel(tile)}
+                style={{ flex: '0 0 auto' }}
+              >
+                {tile.iconUrl
+                  ? <span className="skill-icon" style={{ '--icon-url': `url("${tile.iconUrl}")` }} aria-hidden="true" />
+                  : <span style={{ fontFamily: 'Archivo, Arial, sans-serif', fontSize: '1rem', fontWeight: 700, letterSpacing: '-.055em' }}>{skillTileMark(tile)}</span>}
+              </span>
+              <div style={{ width: 72 }}>
+                <label>Mark</label>
+                <input value={tile.code || ''} onChange={(e) => updateSkillTile(i, { code: e.target.value.slice(0, 4) })} maxLength={4} placeholder="Ae" aria-label="Fallback mark" />
+              </div>
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <label>App name</label>
+                <input value={tile.label || ''} onChange={(e) => updateSkillTile(i, { label: e.target.value })} maxLength={120} placeholder="Adobe After Effects" aria-label="App name" />
+              </div>
+              <label className="btn ghost" style={{ cursor: tileBusy ? 'wait' : 'pointer', opacity: tileBusy ? 0.6 : 1 }} aria-busy={tileBusy === (tile.key || String(i))}>
+                {tileBusy === (tile.key || String(i)) ? 'Uploading…' : 'Upload SVG'}
+                <input hidden type="file" accept=".svg,image/svg+xml" disabled={!!tileBusy} aria-label={`Upload SVG for ${skillTileLabel(tile)}`} onChange={(e) => { uploadSkillIcon(i, e.target.files?.[0]); e.target.value = ''; }} />
+              </label>
+              {tile.iconUrl && <button type="button" className="btn ghost" onClick={() => resetSkillIcon(i)} aria-label="Reset icon to letter mark">Reset</button>}
+              <button type="button" className="btn ghost" onClick={() => moveSkillTile(i, -1)} aria-label="Move app up">↑</button>
+              <button type="button" className="btn ghost" onClick={() => moveSkillTile(i, 1)} aria-label="Move app down">↓</button>
+              <button type="button" className="btn danger" onClick={() => deleteSkillTile(i)} aria-label="Remove app">✕</button>
+            </div>
+          );
+        })}
+        {skillTiles.length === 0 && <p style={muted}>No app tiles yet. Add at least one app to show the marquee.</p>}
+        <div className="row" style={{ marginTop: 8 }}>
+          <button type="button" className="btn ghost" onClick={addSkillTile}>+ Add app</button>
+        </div>
       </div>
       <div className="card">
         <b>Social links ({socials.length})</b>
