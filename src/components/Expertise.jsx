@@ -6,7 +6,7 @@ export default function Expertise() {
     <section className="expertise">
       <div className="exp-head">
         <div className="exp-label-wrap">
-          <p className="exp-label">Our Expertise</p>
+          <p className="exp-label">Core Competencies</p>
         </div>
         <div className="exp-lede-wrap">
           <p className="lede">{settings.about.lede}</p>

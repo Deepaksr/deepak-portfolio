@@ -376,7 +376,6 @@ button { font-family: inherit; cursor: pointer; }
 .inq-inner { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; padding-top: 120px; padding-bottom: 48px; }
 .inq-top { display: flex; flex-direction: column; gap: 28px; }
 .inq-top p { margin: 0; font-size: .8rem; font-weight: 500; line-height: 1.5; }
-.inq-top a, .inq-top .u { text-decoration: underline; text-underline-offset: 4px; }
 .inq-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
 .inq-bottom .big { font-weight: 500; font-size: 34px; letter-spacing: -.018em; line-height: 1.2; margin: 0; }
 .inq-bottom .big a { text-decoration: none; }
