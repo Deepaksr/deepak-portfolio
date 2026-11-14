@@ -559,9 +559,9 @@ table.tbl th, table.tbl td { text-align: left; padding: 10px 8px; border-bottom:
 .skill-marquee { width: min(100%, 568px); margin-top: 34px; overflow: hidden; padding: 12px 0; -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); }
 .skill-track { display: flex; width: max-content; animation: skill-marquee-flow var(--marquee-duration, 36s) linear infinite; will-change: transform; }
 .skill-set { display: flex; flex: 0 0 auto; gap: 26px; padding-right: 26px; }
-.skill-tile { display: flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 40px; height: 40px; background: var(--solid); color: var(--bg); border-radius: 4px; }
+.skill-tile { display: flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 40px; height: 40px; color: var(--ink); }
 .skill-mark { display: block; width: 30px; height: 30px; }
-.skill-icon { display: block; width: 30px; height: 30px; background: currentColor; -webkit-mask-image: var(--icon-url); -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; -webkit-mask-size: contain; mask-image: var(--icon-url); mask-repeat: no-repeat; mask-position: center; mask-size: contain; }
+.skill-logo { display: block; width: 100%; height: 100%; object-fit: contain; }
 .skill-marquee:hover .skill-track { animation-play-state: paused; }
 @keyframes skill-marquee-flow { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 .skills-groups { min-width: 0; }
@@ -640,7 +640,7 @@ table.tbl th, table.tbl td { text-align: left; padding: 10px 8px; border-bottom:
   .skill-marquee { margin-top: 28px; padding: 10px 0; -webkit-mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent); }
   .skill-set { gap: 18px; padding-right: 18px; }
   .skill-tile { width: 32px; height: 32px; }
-  .skill-mark, .skill-icon { width: 24px; height: 24px; }
+  .skill-mark { width: 24px; height: 24px; }
   .git-inner { padding: 72px 0 100px; }
   .git-title { font-size: clamp(2.6rem, 10vw, 3.6rem); }
   .git-details { font-size: 1.1rem; }

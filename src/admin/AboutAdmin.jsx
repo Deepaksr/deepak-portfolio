@@ -414,7 +414,7 @@ export default function AboutAdmin() {
       </div>
       <div className="card">
         <b>Skill app tiles ({skillTiles.length})</b>
-        <p style={muted}>Shows on: Info page skills. Upload a transparent, single-colour SVG up to {SVG_MAX_KB}KB. The icon is recoloured to match the theme; its original colours are not shown. Row order is the marquee order.</p>
+        <p style={muted}>Shows on: Info page skills. Upload any SVG up to {SVG_MAX_KB}KB, including colour and transparent artwork. It displays at the current tile size with its original colours. If the SVG includes a background, that background will also show. Row order is the marquee order.</p>
         {tileErr && <p style={{ color: 'var(--danger)', fontSize: '.85rem' }}>{tileErr}</p>}
         {skillTiles.map((tile, i) => {
           return (
@@ -427,7 +427,7 @@ export default function AboutAdmin() {
                 style={{ flex: '0 0 auto' }}
               >
                 {tile.iconUrl
-                  ? <span className="skill-icon" style={{ '--icon-url': `url("${tile.iconUrl}")` }} aria-hidden="true" />
+                  ? <img className="skill-logo" src={tile.iconUrl} alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" />
                   : <span style={{ fontFamily: 'Archivo, Arial, sans-serif', fontSize: '1rem', fontWeight: 700, letterSpacing: '-.055em' }}>{skillTileMark(tile)}</span>}
               </span>
               <div style={{ width: 72 }}>

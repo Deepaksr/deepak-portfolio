@@ -32,13 +32,7 @@ function AppMark({ mark }) {
 
 function SkillIcon({ tile }) {
   if (tile.iconUrl) {
-    return (
-      <span
-        className="skill-icon"
-        style={{ '--icon-url': `url("${tile.iconUrl}")` }}
-        aria-hidden="true"
-      />
-    );
+    return <img className="skill-logo" src={tile.iconUrl} alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" />;
   }
   return <AppMark mark={skillTileMark(tile)} />;
 }
