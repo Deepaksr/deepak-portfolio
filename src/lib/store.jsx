@@ -188,6 +188,8 @@ export function SiteProvider({ children }) {
         slug: ((input.slug || '').trim() || slugify(input.title || '')),
         cover: String(input.cover || ''),
         thumbnail: cleanThumbnail(input.thumbnail),
+        hover1: cleanThumbnail(input.hover1),
+        hover2: cleanThumbnail(input.hover2),
         media: cleanMedia(input.media),
         categoryIds: (Array.isArray(input.categoryIds) ? input.categoryIds : []).filter((c) => typeof c === 'string'),
         excerpt: String(input.excerpt || ''),
